@@ -1,12 +1,13 @@
 import { Router } from 'express';
 import AuthController from '../Controllers/AuthController';
+import expressCallback from '@infrastructure/Utils/expressCallback';
 
 const router = Router();
 
-router.post('/register', AuthController.register);
+const authController = new AuthController()
 
-router.post('/login', AuthController.login);
+router.post('/register', expressCallback(authController.register));
 
-router.post('/logout', AuthController.logout);
+router.post('/login', expressCallback(authController.login));
 
 export default router;
