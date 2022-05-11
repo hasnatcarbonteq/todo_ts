@@ -5,6 +5,7 @@ import FetchAllTodoDTO from '@application/Todo/FetchAllTodoDTO';
 import FetchTodoByIdDTO from '@application/Todo/FetchTodoByIdDTO';
 import UpdateTodoDTO from '@application/Todo/UpdateTodoDTO';
 import TodoService from '@application/Todo/TodoService';
+import TodoValidation from '@domain/Validations/TodoValidation';
 
 class TodoController {
   private todoService: TodoService;
@@ -21,6 +22,7 @@ class TodoController {
   };
 
   createTodo = async (request: Request) => {
+    TodoValidation.create(request.body);
     const createTodoDTO = new CreateTodoDTO(request);
     const result = await this.todoService.createTodo(createTodoDTO);
     return {
@@ -29,6 +31,7 @@ class TodoController {
   };
 
   updateTodo = async (request: Request) => {
+    TodoValidation.update(request.body);
     const updateTodoDTO = new UpdateTodoDTO(request);
     await this.todoService.updateTodo(updateTodoDTO);
     return {
