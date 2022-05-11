@@ -1,36 +1,65 @@
-import models from '@infrastructure/Models';
-const { sequelize } = models;
-import { Request, Response } from 'express';
+import { Request } from 'express';
+import CreateTodoDTO from '@application/Todo/CreateTodoDTO';
+import DeleteTodoDTO from '@application/Todo/DeleteTodoDTO';
+import FetchAllTodoDTO from '@application/Todo/FetchAllTodoDTO';
+import FetchTodoByIdDTO from '@application/Todo/FetchTodoByIdDTO';
+import UpdateTodoDTO from '@application/Todo/UpdateTodoDTO';
+import TodoService from '@application/Todo/TodoService';
 
 class TodoController {
-  static fetchTodo = async (req: Request, res: Response) => {
-    res.json({
-      message: 'Hello World!',
-    });
+  private todoService: TodoService;
+  constructor() {
+    this.todoService = new TodoService();
+  }
+
+  fetchTodo = async (request: Request) => {
+    // const fetchTodoByIdDTO = new FetchAllTodoDTO();
+    const results = await this.todoService.findAllTodos();
+    return {
+      body: { status: 'success', data: results },
+    };
   };
 
-  static createTodo = async (req: Request, res: Response) => {
-    res.json({
-      message: 'Hello World!',
-    });
+  createTodo = async (request: Request) => {
+    const createTodoDTO = new CreateTodoDTO(request);
+    const result = await this.todoService.createTodo(createTodoDTO);
+    return {
+      body: { status: 'success', data: result },
+    };
   };
 
-  static updateTodo = async (req: Request, res: Response) => {
-    res.json({
-      message: 'Hello World!',
-    });
+  updateTodo = async (request: Request) => {
+    const updateTodoDTO = new UpdateTodoDTO(request);
+    await this.todoService.updateTodo(updateTodoDTO);
+    return {
+      body: {
+        status: 'success',
+        data: {
+          message: 'Todo updated successfully',
+        },
+      },
+    };
   };
 
-  static deleteTodo = async (req: Request, res: Response) => {
-    res.json({
-      message: 'Hello World!',
-    });
+  deleteTodo = async (request: Request) => {
+    const deleteTodoDTO = new DeleteTodoDTO(request);
+    await this.todoService.deleteTodo(deleteTodoDTO);
+    return {
+      body: {
+        status: 'success',
+        data: {
+          message: 'Todo deleted successfully',
+        },
+      },
+    };
   };
 
-  static fetchTodoById = async (req: Request, res: Response) => {
-    res.json({
-      message: 'Hello World!',
-    });
+  fetchTodoById = async (request: Request) => {
+    const fetchTodoByIdDTO = new FetchTodoByIdDTO(request);
+    const result = await this.todoService.findById(fetchTodoByIdDTO);
+    return {
+      body: { status: 'success', data: result },
+    };
   };
 }
 

@@ -51,7 +51,7 @@ class AuthService {
       const user = await this.authRepository.add(authRegisterDTO.getUser());
 
       if (!user) {
-        throw new HttpError(400, 'Unable to create employee');
+        throw new HttpError(400, 'Unable to create user');
       }
       return user;
     } catch (e) {

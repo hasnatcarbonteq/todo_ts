@@ -1,16 +1,20 @@
 import { Router } from 'express';
 import TodoController from '../Controllers/TodoController';
+import auth from '../Middleware/auth';
+import expressCallback from '@infrastructure/Utils/expressCallback';
 
 const router = Router();
 
-router.get('/fetch', TodoController.fetchTodo);
+const todoController = new TodoController();
 
-router.post('/create', TodoController.createTodo);
+router.get('/fetch', auth, expressCallback(todoController.fetchTodo));
 
-router.put('/update/:id', TodoController.updateTodo);
+router.post('/create', auth, expressCallback(todoController.createTodo));
 
-router.delete('/delete/:id', TodoController.deleteTodo);
+router.put('/update/:id', auth, expressCallback(todoController.updateTodo));
 
-router.get('/fetch/:id', TodoController.fetchTodoById);
+router.delete('/delete/:id', auth, expressCallback(todoController.deleteTodo));
+
+router.get('/fetch/:id', auth, expressCallback(todoController.fetchTodoById));
 
 export default router;

@@ -1,5 +1,4 @@
 import { uuid } from 'uuidv4';
-import DomainException from '../Exception/DomainException';
 
 class Auth {
   id: string;
@@ -44,7 +43,7 @@ class Auth {
     this.password = password;
   }
 
-  static create(userObject): Auth {
+  static createUser(userObject): Auth {
     const user = new Auth(
       uuid(),
       userObject.email,

@@ -3,17 +3,23 @@ export default (sequelize, DataTypes) => {
     'Todo',
     {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         primaryKey: true,
-        autoIncrement: true,
       },
       title: {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      description: {
+        type: DataTypes.STRING,
+      },
+      status: {
+        type: DataTypes.BOOLEAN,
+      }
     },
     {
       timestamps: true,
+      paranoid: true,
     },
   );
   return TodoModel;

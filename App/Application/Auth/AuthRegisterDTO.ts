@@ -1,9 +1,12 @@
 import Auth from '@domain/Core/Auth/Auth';
+import { Request } from 'express';
+
 class AuthRegisterDTO {
   private readonly user: Auth;
 
-  constructor(email: string, password: string, username: string) {
-    this.user = Auth.create({ email, password, username });
+  constructor(request: Request) {
+    const { email, password, username } = request.body;
+    this.user = Auth.createUser({ email, password, username });
   }
 
   getUser(): Auth {

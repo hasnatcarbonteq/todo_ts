@@ -19,7 +19,7 @@ class AuthRepository {
       if (!result) {
         return false;
       }
-      return Auth.create(result);
+      return Auth.createUser(result);
     } catch (e) {
       throw new DatabaseError(e);
     }
