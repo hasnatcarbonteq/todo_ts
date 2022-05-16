@@ -38,16 +38,16 @@ class AuthService {
   async register(authRegisterDTO: AuthRegisterDTO) {
     try {
       const result = await this.authRepository.findByEmail(
-        authRegisterDTO.getUser().email,
+        authRegisterDTO.getEmail(),
       );
       if (result) {
         throw new HttpError(400, 'Email already exists');
       }
 
       const hash = await this.authInfraService.hashPassword(
-        authRegisterDTO.getUser().password,
+        authRegisterDTO.getPassword(),
       );
-      authRegisterDTO.setHashPassword(hash);
+      authRegisterDTO.getUser().setPassword(hash);
       const user = await this.authRepository.add(authRegisterDTO.getUser());
 
       if (!user) {

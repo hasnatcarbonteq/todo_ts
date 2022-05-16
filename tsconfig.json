@@ -21,7 +21,7 @@
     "paths": {
       "@application/*": ["App/Application/*"],
       "@domain/*": ["App/Domain/*"],
-      "@http/*": ["App/Http/*"],
+      "@http/*": ["Http/*"],
       "@controller/*": ["App/HttpControllers/*"],
       "@routes/*": ["App/HttpRoutes/*"],
       "@infrastructure/*": ["App/Infrastructure/*"]
