@@ -7,4 +7,5 @@ export default {
   NODE_ENV: process.env.NODE_ENV,
   SECRET: process.env.SECRET,
   ENVIRONMENT: process.env.NODE_ENV,
+  SERVER_URL: process.env.SERVER_URL,
 };

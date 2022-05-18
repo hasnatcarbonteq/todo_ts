@@ -15,11 +15,7 @@ class AuthService {
 
   async signJWT(props) {
     try {
-      const claims = {
-        id: props.id,
-        email: props.email,
-      };
-      return await jwt.sign(claims, server.SECRET, { expiresIn: '7d' });
+      return await jwt.sign(props, server.SECRET, { expiresIn: '7d' });
     } catch (err) {
       throw new Error(err);
     }

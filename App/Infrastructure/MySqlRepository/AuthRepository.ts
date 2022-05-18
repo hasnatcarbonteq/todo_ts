@@ -2,8 +2,9 @@ import models from '../Models';
 const { UserModel } = models;
 import DatabaseError from '../Errors/DatabaseException';
 import Auth from '@domain/Core/Auth/Auth';
+import { IAuthRepository } from '@domain/Core/Auth/IAuthRepository';
 
-class AuthRepository {
+class AuthRepository implements IAuthRepository {
   async add(userEntity) {
     try {
       await UserModel.create(userEntity);

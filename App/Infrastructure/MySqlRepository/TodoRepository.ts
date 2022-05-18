@@ -2,8 +2,9 @@ import models from '../Models';
 const { TodoModel } = models;
 import DatabaseError from '../Errors/DatabaseException';
 import Todo from '@domain/Core/Todo/Todo';
+import { ITodoRepository } from '@domain/Core/Todo/ITodoRepository';
 
-class TodoRepository {
+class TodoRepository implements ITodoRepository {
   async add(todoEntity) {
     try {
       const result = await TodoModel.create(todoEntity);
