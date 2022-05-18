@@ -41,13 +41,13 @@ class AuthController {
 
   googleUserData = async (request: Request) => {
     const authGoogleClientDTO = new AuthGoogleClientDTO(request);
-    const user = await this.authService.getGUserData(
+    const googleUser = await this.authService.getGUserData(
       authGoogleClientDTO.getCode(),
     );
     return {
       body: {
         status: 'success',
-        data: user,
+        data: googleUser,
       },
     };
   };
