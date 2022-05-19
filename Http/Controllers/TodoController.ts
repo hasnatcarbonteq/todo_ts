@@ -13,11 +13,11 @@ class TodoController {
     this.todoService = new TodoService();
   }
 
-  fetchTodo = async (request: Request) => {
-    // const fetchTodoByIdDTO = new FetchAllTodoDTO();
-    const results = await this.todoService.findAllTodos();
+  fetchAllTodo = async (request: Request) => {
+    const fetchAllTodoDTO = new FetchAllTodoDTO(request);
+    const results = await this.todoService.findAllTodos(fetchAllTodoDTO);
     return {
-      body: { status: 'success', data: results },
+      body: results,
     };
   };
 

@@ -38,10 +38,12 @@ class TodoService {
     }
   }
 
-  async findAllTodos() {
+  async findAllTodos(fetchAllTodoDTO: FetchAllTodoDTO) {
     try {
-      const todos = await this.todo.findAll();
-      return todos;
+      const todos = await this.todo.findAll({
+        paginationOptions: fetchAllTodoDTO.getPaginationOptions(),
+      });
+      return todos.getPaginatedData();
     } catch (error) {
       throw new Error(error);
     }

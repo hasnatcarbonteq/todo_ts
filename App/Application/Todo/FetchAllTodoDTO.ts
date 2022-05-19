@@ -1,13 +1,18 @@
+import PaginationOptions from "@domain/Utils/PaginationOptions";
+
 class FetchAllTodoDTO {
-  private readonly id: string;
+  private readonly paginationOptions: PaginationOptions;
+
   constructor(request: any) {
-    const { id } = request.decoded;
-    this.id = id;
+    const { page, perPage } = request.query;
+    this.paginationOptions = new PaginationOptions(page, perPage);
   }
 
-  getUserId(): string {
-    return this.id;
+  getPaginationOptions(): PaginationOptions {
+    return this.paginationOptions;
   }
+
+  
 }
 
 export default FetchAllTodoDTO;
