@@ -1,3 +1,4 @@
+import "reflect-metadata"
 import { Request } from 'express';
 import CreateTodoDTO from '@application/Todo/CreateTodoDTO';
 import DeleteTodoDTO from '@application/Todo/DeleteTodoDTO';
@@ -6,16 +7,15 @@ import FetchTodoByIdDTO from '@application/Todo/FetchTodoByIdDTO';
 import UpdateTodoDTO from '@application/Todo/UpdateTodoDTO';
 import TodoService from '@application/Todo/TodoService';
 import TodoValidation from '@domain/Validations/TodoValidation';
+import container from '@infrastructure/DIContainer/DIContainer';
+
+const todoService = container.resolve(TodoService);
 
 class TodoController {
-  private todoService: TodoService;
-  constructor() {
-    this.todoService = new TodoService();
-  }
 
   fetchAllTodo = async (request: Request) => {
     const fetchAllTodoDTO = new FetchAllTodoDTO(request);
-    const results = await this.todoService.findAllTodos(fetchAllTodoDTO);
+    const results = await todoService.findAllTodos(fetchAllTodoDTO);
     return {
       body: results,
     };
@@ -24,7 +24,7 @@ class TodoController {
   createTodo = async (request: Request) => {
     TodoValidation.create(request.body);
     const createTodoDTO = new CreateTodoDTO(request);
-    const result = await this.todoService.createTodo(createTodoDTO);
+    const result = await todoService.createTodo(createTodoDTO);
     return {
       body: { status: 'success', data: result },
     };
@@ -33,7 +33,7 @@ class TodoController {
   updateTodo = async (request: Request) => {
     TodoValidation.update(request.body);
     const updateTodoDTO = new UpdateTodoDTO(request);
-    await this.todoService.updateTodo(updateTodoDTO);
+    await todoService.updateTodo(updateTodoDTO);
     return {
       body: {
         status: 'success',
@@ -46,7 +46,7 @@ class TodoController {
 
   deleteTodo = async (request: Request) => {
     const deleteTodoDTO = new DeleteTodoDTO(request);
-    await this.todoService.deleteTodo(deleteTodoDTO);
+    await todoService.deleteTodo(deleteTodoDTO);
     return {
       body: {
         status: 'success',
@@ -59,7 +59,7 @@ class TodoController {
 
   fetchTodoById = async (request: Request) => {
     const fetchTodoByIdDTO = new FetchTodoByIdDTO(request);
-    const result = await this.todoService.findById(fetchTodoByIdDTO);
+    const result = await todoService.findById(fetchTodoByIdDTO);
     return {
       body: { status: 'success', data: result },
     };

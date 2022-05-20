@@ -5,17 +5,16 @@ import HttpError from '@infrastructure/Errors/HttpException';
 import AuthInfraService from '@infrastructure/Services/AuthService';
 import AuthGoogleClientDTO from './AuthGoogleClientDTO';
 import GoogleOAuthService from '@infrastructure/Services/GoogleOAuthService';
-import axios from 'axios';
+import { autoInjectable } from 'tsyringe';
 
+
+@autoInjectable()
 class AuthService {
-  private authRepository;
-  private authInfraService;
-  private googleAuthService: GoogleOAuthService;
-  constructor() {
-    this.authRepository = new AuthRepository();
-    this.authInfraService = new AuthInfraService();
-    this.googleAuthService = new GoogleOAuthService();
-  }
+  constructor(
+    private authRepository: AuthRepository,
+    private authInfraService: AuthInfraService,
+    private googleAuthService: GoogleOAuthService,
+  ) {}
 
   async login(authLoginDTO: AuthLoginDTO) {
     const user = await this.authRepository.findByEmail(authLoginDTO.getEmail());

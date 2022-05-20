@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import TodoController from '../Controllers/TodoController';
+import TodoController from '@controller/TodoController';
 import auth from '../Middleware/auth';
 import expressCallback from '../Utils/expressCallback';
 

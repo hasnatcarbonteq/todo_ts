@@ -22,8 +22,7 @@
       "@application/*": ["App/Application/*"],
       "@domain/*": ["App/Domain/*"],
       "@http/*": ["Http/*"],
-      "@controller/*": ["App/HttpControllers/*"],
-      "@routes/*": ["App/HttpRoutes/*"],
+      "@controller/*": ["Http/Controllers/*"],
       "@infrastructure/*": ["App/Infrastructure/*"]
     }
   },
