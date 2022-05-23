@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import TodoController from '../Controllers/TodoController';
+import TodoController from '@controller/TodoController';
 import auth from '../Middleware/auth';
-import expressCallback from '@infrastructure/Utils/expressCallback';
+import expressCallback from '../Utils/expressCallback';
 
 const router = Router();
 
 const todoController = new TodoController();
 
-router.get('/fetch', auth, expressCallback(todoController.fetchTodo));
+router.get('/fetch', auth, expressCallback(todoController.fetchAllTodo));
 
 router.post('/create', auth, expressCallback(todoController.createTodo));
 

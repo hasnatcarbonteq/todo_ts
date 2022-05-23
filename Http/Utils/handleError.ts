@@ -1,7 +1,10 @@
-import HttpException from '../../Infrastructure/Errors/HttpException';
+import HttpException from '../../App/Infrastructure/Errors/HttpException';
 import { z } from 'zod';
+import logger from '../../App/Infrastructure/Logger'
 
 const handleError = async (error, res, req) => {
+  logger.error(error);
+
   if (error instanceof HttpException) {
     return res.status(error.status).send({
       status: 'error',

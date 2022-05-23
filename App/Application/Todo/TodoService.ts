@@ -5,16 +5,15 @@ import FetchAllTodoDTO from './FetchAllTodoDTO';
 import FetchTodoByIdDTO from './FetchTodoByIdDTO';
 import UpdateTodoDTO from './UpdateTodoDTO';
 import HttpError from '@infrastructure/Errors/HttpException';
+import { autoInjectable } from 'tsyringe';
 
+@autoInjectable()
 class TodoService {
-  private todo: TodoRepository;
-  constructor() {
-    this.todo = new TodoRepository();
-  }
+  constructor(private todoRepository: TodoRepository) {}
 
   async createTodo(createTodoDTO: CreateTodoDTO) {
     try {
-      const newTodo = await this.todo.add(createTodoDTO.getTodo());
+      const newTodo = await this.todoRepository.add(createTodoDTO.getTodo());
       if (!newTodo) {
         throw new HttpError(400, 'Unable to create todo');
       }
@@ -27,7 +26,9 @@ class TodoService {
 
   async updateTodo(updateTodoDTO: UpdateTodoDTO) {
     try {
-      const updatedTodo = await this.todo.update(updateTodoDTO.getUpdatedTodo());
+      const updatedTodo = await this.todoRepository.update(
+        updateTodoDTO.getUpdatedTodo(),
+      );
 
       if (!updatedTodo) {
         throw new HttpError(400, 'Unable to update todo');
@@ -38,10 +39,12 @@ class TodoService {
     }
   }
 
-  async findAllTodos() {
+  async findAllTodos(fetchAllTodoDTO: FetchAllTodoDTO) {
     try {
-      const todos = await this.todo.findAll();
-      return todos;
+      const todos = await this.todoRepository.findAll({
+        paginationOptions: fetchAllTodoDTO.getPaginationOptions(),
+      });
+      return todos.getPaginatedData();
     } catch (error) {
       throw new Error(error);
     }
@@ -49,7 +52,7 @@ class TodoService {
 
   async deleteTodo(deleteTodoDTO: DeleteTodoDTO) {
     try {
-      const deletedTodo = await this.todo.delete(deleteTodoDTO.getId());
+      const deletedTodo = await this.todoRepository.delete(deleteTodoDTO.getId());
       if (!deletedTodo) {
         throw new HttpError(400, 'Unable to delete todo');
       }
@@ -61,7 +64,7 @@ class TodoService {
 
   async findById(fetchTodoByIdDTO: FetchTodoByIdDTO) {
     try {
-      const todo = await this.todo.findById(fetchTodoByIdDTO.getId());
+      const todo = await this.todoRepository.findById(fetchTodoByIdDTO.getId());
       if (!todo) {
         throw new HttpError(400, 'Unable to find todo');
       }

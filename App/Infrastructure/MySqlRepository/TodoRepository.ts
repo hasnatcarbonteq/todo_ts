@@ -3,6 +3,7 @@ const { TodoModel } = models;
 import DatabaseError from '../Errors/DatabaseException';
 import Todo from '@domain/Core/Todo/Todo';
 import { ITodoRepository } from '@domain/Core/Todo/ITodoRepository';
+import PaginationData from '@domain/Utils/PaginationData';
 
 class TodoRepository implements ITodoRepository {
   async add(todoEntity) {
@@ -29,10 +30,18 @@ class TodoRepository implements ITodoRepository {
     }
   }
 
-  async findAll() {
+  async findAll({ paginationOptions }): Promise<PaginationData<any>> {
     try {
-      const result = await TodoModel.findAll();
-      return result.map((todo) => Todo.createTodoFromObject(todo));
+      const { rows: result, count } = await TodoModel.findAndCountAll({
+        limit: paginationOptions.limit(),
+        offset: paginationOptions.offset(),
+      });
+
+      const items = result.map((item) => Todo.createTodoFromObject(item));
+      
+      const paginationData = new PaginationData(paginationOptions, count, items);
+      
+      return paginationData;
     } catch (e) {
       throw new DatabaseError(e);
     }
