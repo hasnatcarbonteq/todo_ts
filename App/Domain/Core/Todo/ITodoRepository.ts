@@ -1,4 +1,4 @@
-import PaginationData from "@domain/Utils/PaginationData";
+import PaginationData from "@infrastructure/Utils/PaginationData";
 import Todo from "./Todo";
 export interface ITodoRepository {
     add(todoEntity: {}): Promise<any>;

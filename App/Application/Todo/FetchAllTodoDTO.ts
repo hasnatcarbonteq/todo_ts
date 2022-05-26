@@ -1,4 +1,4 @@
-import PaginationOptions from "@domain/Utils/PaginationOptions";
+import PaginationOptions from "@infrastructure/Utils/PaginationOptions";
 
 class FetchAllTodoDTO {
   private readonly paginationOptions: PaginationOptions;
