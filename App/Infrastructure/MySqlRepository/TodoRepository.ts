@@ -3,7 +3,7 @@ const { TodoModel } = models;
 import DatabaseError from '../Errors/DatabaseException';
 import Todo from '@domain/Core/Todo/Todo';
 import { ITodoRepository } from '@domain/Core/Todo/ITodoRepository';
-import PaginationData from '@domain/Utils/PaginationData';
+import PaginationData from '@infrastructure/Utils/PaginationData';
 
 class TodoRepository implements ITodoRepository {
   async add(todoEntity) {
